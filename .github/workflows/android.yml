@@ -19,14 +19,14 @@ jobs:
       - name: Install dependencies
         run: |
           sudo apt update
-          sudo apt install -y build-essential libssl-dev libffi-dev python3-dev autoconf automake libtool pkg-config zlib1g-dev ccache cmake
+          sudo apt install -y build-essential libssl-dev libffi-dev python3-dev autoconf automake libtool pkg-config zlib1g-dev ccache cmake openjdk-17-jdk
           pip install --upgrade pip
           pip install buildozer cython==0.29.33
 
       - name: Build APK with Buildozer
         run: |
-          # هنا نقوم بتشغيل البناء مباشرة كأمر نظام
-          buildozer -v android debug
+          # السطر السحري للموافقة على كل تراخيص أندرويد تلقائياً
+          yes | buildozer -v android debug
         env:
           ACCEPT_SDK_LICENSE: "y"
 
