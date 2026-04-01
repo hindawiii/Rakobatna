@@ -5,7 +5,7 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest # جيت هاب حيختار أحدث نسخة مستقرة تلقائياً
+    runs-on: ubuntu-22.04 # تحديد نسخة مستقرة جداً
 
     steps:
       - name: Checkout code
@@ -22,16 +22,18 @@ jobs:
         with:
           python-version: '3.10'
 
-      - name: Install Dependencies
+      - name: Install System Dependencies
         run: |
           sudo apt update
-          sudo apt install -y build-essential libssl-dev libffi-dev python3-dev autoconf automake libtool pkg-config zlib1g-dev ccache cmake
+          # إضافة libtool, gettext, و autotools هي الحل للخطأ الأخير
+          sudo apt install -y build-essential libssl-dev libffi-dev python3-dev \
+          autoconf automake libtool pkg-config zlib1g-dev ccache cmake gettext
           pip install --upgrade pip
           pip install buildozer cython==0.29.33
 
       - name: Build APK with Buildozer
         run: |
-          # تنظيف أي مخلفات قديمة لبناء نظيف
+          # تنظيف شامل لبدء بناء على بياض
           rm -rf .buildozer/
           yes | buildozer -v android debug
         env:
