@@ -1,14 +1,11 @@
 name: Build Rakobatna APK
-
 on:
   push:
-    branches: [ main, master ]
-  pull_request:
     branches: [ main, master ]
 
 jobs:
   build:
-    runs-on: ubuntu-22.04  # تحديد نسخة مستقرة من النظام
+    runs-on: ubuntu-22.04
 
     steps:
       - name: Checkout code
@@ -21,19 +18,20 @@ jobs:
 
       - name: Install dependencies
         run: |
-          sudo apt-get update
-          sudo apt-get install -y build-essential libssl-dev libffi-dev python3-dev autoconf automake libtool pkg-config zlib1g-dev
+          sudo apt update
+          sudo apt install -y build-essential libssl-dev libffi-dev python3-dev autoconf automake libtool pkg-config zlib1g-dev ccache cmake
+          pip install --upgrade pip
+          pip install buildozer cython==0.29.33
 
-      - name: Build with Buildozer
-        # استخدمنا هنا نسخة رسمية ومحدثة من أداة البناء
-        uses: Peter-S-S/buildozer-action@v2
-        with:
-          command: buildozer -v android debug
-          buildozer_version: master
+      - name: Build APK with Buildozer
+        run: |
+          # هنا نقوم بتشغيل البناء مباشرة كأمر نظام
+          buildozer -v android debug
+        env:
+          ACCEPT_SDK_LICENSE: "y"
 
-      - name: Upload APK Artifact
-        # تحديث لأحدث نسخة من أداة الرفع v4 كما طلبت جيت هاب
+      - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
-          name: Rakobatna-App-Package
+          name: Rakobatna-App
           path: bin/*.apk
