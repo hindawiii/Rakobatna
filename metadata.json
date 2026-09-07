@@ -1,0 +1,12 @@
+{
+  "name": "راكوبتنا - Rakobatna | الراكوبة الرقمية",
+  "description": "The Sudanese Super-App: Chat, Social Feed, Marketplace, News & More",
+  "requestFramePermissions": [
+    "camera",
+    "microphone",
+    "geolocation"
+  ],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
